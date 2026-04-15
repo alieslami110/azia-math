@@ -1,0 +1,2160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Star Math Results - Az-Zahraa Islamic Academy</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg-primary: #0a0f1c;
+    --bg-secondary: #111827;
+    --bg-card: #1a2235;
+    --bg-card-hover: #1e2940;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent-blue: #3b82f6;
+    --accent-blue-light: #60a5fa;
+    --accent-emerald: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-red-light: #f87171;
+    --accent-purple: #a78bfa;
+    --benchmark-green: #10b981;
+    --benchmark-blue: #3b82f6;
+    --benchmark-amber: #f59e0b;
+    --benchmark-red: #ef4444;
+    --border: rgba(148, 163, 184, 0.1);
+    --glow-blue: rgba(59, 130, 246, 0.15);
+    --glow-emerald: rgba(16, 185, 129, 0.15);
+    --glow-red: rgba(239, 68, 68, 0.15);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  .reveal-viewport { background: var(--bg-primary); }
+
+  .reveal {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 22px;
+    color: var(--text-primary);
+  }
+
+  .reveal .slides { text-align: left; }
+
+  .reveal .slides section {
+    padding: 40px 60px;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Typography */
+  .slide-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-blue-light);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .slide-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 6px 0;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+
+  .slide-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0 0 30px 0;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Stat Cards */
+  .stat-grid {
+    display: grid;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .stat-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .stat-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .stat-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    transition: all 0.3s ease;
+  }
+  .stat-card:hover { background: var(--bg-card-hover); transform: translateY(-2px); }
+
+  .stat-card .stat-value {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-card .stat-label {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .stat-card .stat-detail {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  .stat-card.green .stat-value { color: var(--benchmark-green); }
+  .stat-card.blue .stat-value { color: var(--accent-blue-light); }
+  .stat-card.amber .stat-value { color: var(--benchmark-amber); }
+  .stat-card.red .stat-value { color: var(--benchmark-red); }
+  .stat-card.purple .stat-value { color: var(--accent-purple); }
+  .stat-card.white .stat-value { color: var(--text-primary); }
+
+  .stat-card.glow-green { box-shadow: inset 0 1px 0 rgba(16,185,129,0.3), 0 0 30px rgba(16,185,129,0.06); }
+  .stat-card.glow-red { box-shadow: inset 0 1px 0 rgba(239,68,68,0.3), 0 0 30px rgba(239,68,68,0.06); }
+  .stat-card.glow-blue { box-shadow: inset 0 1px 0 rgba(59,130,246,0.3), 0 0 30px rgba(59,130,246,0.06); }
+  .stat-card.glow-amber { box-shadow: inset 0 1px 0 rgba(245,158,11,0.3), 0 0 30px rgba(245,158,11,0.06); }
+
+  /* Chart containers */
+  .chart-container {
+    position: relative;
+    margin: 0 auto;
+  }
+  .chart-container.full { width: 100%; height: 400px; }
+  .chart-container.medium { width: 100%; height: 340px; }
+  .chart-container.small { width: 280px; height: 280px; }
+
+  /* Class deep-dive layout */
+  .class-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 30px;
+    align-items: start;
+    margin-top: 10px;
+  }
+  .class-left { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .class-right { display: flex; flex-direction: column; gap: 14px; }
+
+  .class-meta {
+    text-align: center;
+    padding: 16px;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .class-meta .teacher { font-size: 0.85rem; color: var(--text-secondary); }
+  .class-meta .count { font-size: 2rem; font-weight: 800; color: var(--text-primary); }
+  .class-meta .count-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  .class-narrative {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    padding: 18px 22px;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-blue);
+  }
+  .class-narrative.alert { border-left-color: var(--accent-red); }
+  .class-narrative.success { border-left-color: var(--benchmark-green); }
+  .class-narrative.warning { border-left-color: var(--benchmark-amber); }
+
+  .mini-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .mini-stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .mini-stat .val {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .mini-stat .lbl {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+
+  /* Benchmark legend */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* Insight cards */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .insight-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+  }
+  .insight-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .insight-card p {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* Action items */
+  .action-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .action-list li {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+  .action-list li .action-num {
+    background: var(--accent-blue);
+    color: white;
+    font-weight: 700;
+    font-size: 0.72rem;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .action-list li strong { color: var(--text-primary); }
+
+  /* Title slide */
+  .title-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+  }
+  .title-slide .school-name {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-blue-light);
+    margin-bottom: 16px;
+  }
+  .title-slide h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    margin: 0;
+    background: linear-gradient(135deg, #f1f5f9, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+  }
+  .title-slide .date-line {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 20px;
+    font-weight: 400;
+  }
+  .title-slide .divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-emerald));
+    border-radius: 2px;
+    margin: 24px 0;
+  }
+
+  /* Section divider slides */
+  .section-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100%;
+  }
+  .section-slide .section-num {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-blue-light);
+    margin-bottom: 12px;
+  }
+  .section-slide h2 {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin: 0;
+    color: var(--text-primary);
+  }
+  .section-slide .section-desc {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    margin-top: 12px;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  /* Progress bar at bottom */
+  .reveal .progress { color: var(--accent-blue); height: 3px; }
+
+  /* Slide number */
+  .reveal .slide-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    background: transparent;
+    right: 30px;
+    bottom: 20px;
+  }
+
+  /* Dashboard grid */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .dashboard-cell {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    text-align: center;
+  }
+  .dashboard-cell .dc-grade {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .dashboard-cell .dc-val {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .dashboard-cell .dc-sub {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Thank you slide */
+  .thankyou-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+  }
+  .thankyou-slide h2 {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, var(--accent-blue-light), var(--accent-emerald));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .thankyou-slide p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+
+  /* Benchmark bar inline */
+  .bench-bar-wrap { margin-top: 6px; }
+  .bench-bar {
+    display: flex;
+    height: 28px;
+    border-radius: 6px;
+    overflow: hidden;
+    width: 100%;
+  }
+  .bench-bar > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: white;
+    transition: width 0.6s ease;
+  }
+  .bench-bar .seg-urgent { background: var(--benchmark-red); }
+  .bench-bar .seg-intervention { background: var(--benchmark-amber); }
+  .bench-bar .seg-onwatch { background: var(--benchmark-blue); }
+  .bench-bar .seg-above { background: var(--benchmark-green); }
+
+  .bench-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+  }
+
+  /* Two-col layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 16px;
+  }
+
+  /* Highlight callout */
+  .callout {
+    padding: 16px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-top: 12px;
+  }
+  .callout.info { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); }
+  .callout.success { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); }
+  .callout.danger { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
+  .callout.warning { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); }
+  .callout strong { color: var(--text-primary); }
+
+  /* Footer on each slide */
+  .slide-footer {
+    position: absolute;
+    bottom: 18px;
+    left: 60px;
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============ SLIDE 1: TITLE ============ -->
+<section>
+  <div class="title-slide">
+    <div class="school-name">Az-Zahraa Islamic Academy</div>
+    <h1>Star Math<br>Results Overview</h1>
+    <div class="divider"></div>
+    <div class="date-line">Star Math Enterprise &middot; Grades K&ndash;7 &middot; Spring 2026</div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 2: CONTEXT ============ -->
+<section>
+  <span class="slide-label">Context</span>
+  <div class="slide-title">Understanding Star Math</div>
+  <div class="slide-subtitle">A quick guide to the numbers in this report</div>
+
+  <div class="stat-grid cols-2" style="margin-bottom: 20px;">
+    <div class="stat-card">
+      <div class="stat-value blue" style="font-size:1.8rem;">Scaled Score (SS)</div>
+      <div class="stat-detail" style="font-size:0.82rem; color:var(--text-secondary); margin-top:10px; line-height:1.6;">
+        A score on a fixed scale that measures math achievement. Ranges from 600&ndash;1400. Higher is better. Allows comparison across grade levels and over time.
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value purple" style="font-size:1.8rem;">Percentile Rank (PR)</div>
+      <div class="stat-detail" style="font-size:0.82rem; color:var(--text-secondary); margin-top:10px; line-height:1.6;">
+        Shows how a student compares to peers nationally. PR&nbsp;50 means the student scored higher than 50% of students in the same grade nationwide.
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-subtitle" style="margin-bottom:12px; margin-top: 6px; font-weight:600; color:var(--text-primary); font-size:0.9rem;">District Benchmark Categories</div>
+  <div class="stat-grid cols-4">
+    <div class="stat-card glow-green" style="border-top:3px solid var(--benchmark-green);">
+      <div class="stat-value green" style="font-size:1.1rem;">At/Above Benchmark</div>
+      <div class="stat-detail" style="font-size:0.78rem; margin-top:6px; color:var(--text-secondary);">On track for grade-level mastery</div>
+    </div>
+    <div class="stat-card glow-blue" style="border-top:3px solid var(--benchmark-blue);">
+      <div class="stat-value blue" style="font-size:1.1rem;">On Watch</div>
+      <div class="stat-detail" style="font-size:0.78rem; margin-top:6px; color:var(--text-secondary);">Approaching benchmark; monitor closely</div>
+    </div>
+    <div class="stat-card glow-amber" style="border-top:3px solid var(--benchmark-amber);">
+      <div class="stat-value amber" style="font-size:1.1rem;">Intervention</div>
+      <div class="stat-detail" style="font-size:0.78rem; margin-top:6px; color:var(--text-secondary);">Below grade level; targeted support needed</div>
+    </div>
+    <div class="stat-card glow-red" style="border-top:3px solid var(--benchmark-red);">
+      <div class="stat-value red" style="font-size:1.1rem;">Urgent Intervention</div>
+      <div class="stat-detail" style="font-size:0.78rem; margin-top:6px; color:var(--text-secondary);">Significantly below; intensive support critical</div>
+    </div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 3: SCHOOL SNAPSHOT ============ -->
+<section>
+  <span class="slide-label">School-Wide</span>
+  <div class="slide-title">How Are We Doing?</div>
+  <div class="slide-subtitle">Benchmark distribution across all 203 tested students</div>
+
+  <div style="display:grid; grid-template-columns: 320px 1fr; gap: 40px; align-items: center;">
+    <div class="chart-container" style="width:300px; height:300px;">
+      <canvas id="schoolDonut"></canvas>
+    </div>
+    <div>
+      <div class="stat-grid cols-2" style="gap:12px;">
+        <div class="stat-card glow-green">
+          <div class="stat-value green">91</div>
+          <div class="stat-label">At/Above Benchmark</div>
+          <div class="stat-detail">44.8% of students</div>
+        </div>
+        <div class="stat-card glow-blue">
+          <div class="stat-value blue">37</div>
+          <div class="stat-label">On Watch</div>
+          <div class="stat-detail">18.2% of students</div>
+        </div>
+        <div class="stat-card glow-amber">
+          <div class="stat-value amber">54</div>
+          <div class="stat-label">Intervention</div>
+          <div class="stat-detail">26.6% of students</div>
+        </div>
+        <div class="stat-card glow-red">
+          <div class="stat-value red">21</div>
+          <div class="stat-label">Urgent Intervention</div>
+          <div class="stat-detail">10.3% of students</div>
+        </div>
+      </div>
+      <div class="callout danger" style="margin-top:16px;">
+        <strong>55.2%</strong> of students are currently below benchmark. About <strong>1 in 3</strong> need intervention or urgent intervention support.
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 4: KEY NUMBERS ============ -->
+<section>
+  <span class="slide-label">School-Wide</span>
+  <div class="slide-title">Key Numbers at a Glance</div>
+  <div class="slide-subtitle">School-wide performance summary</div>
+
+  <div class="stat-grid cols-3">
+    <div class="stat-card glow-blue">
+      <div class="stat-value blue">203</div>
+      <div class="stat-label">Students Tested</div>
+      <div class="stat-detail">Grades K through 7 &middot; 9 students had no results</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value white">8</div>
+      <div class="stat-label">Classes</div>
+      <div class="stat-detail">One class per grade level, K&ndash;7</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value amber">38</div>
+      <div class="stat-label">School Mean Percentile</div>
+      <div class="stat-detail">National average is the 50th percentile</div>
+    </div>
+  </div>
+
+  <div class="stat-grid cols-3" style="margin-top:16px;">
+    <div class="stat-card glow-green">
+      <div class="stat-value green">71%</div>
+      <div class="stat-label">Best Class (Grade K)</div>
+      <div class="stat-detail">Highest % at/above benchmark</div>
+    </div>
+    <div class="stat-card glow-red">
+      <div class="stat-value red">13%</div>
+      <div class="stat-label">Weakest Class (Grade 1)</div>
+      <div class="stat-detail">Lowest % at/above benchmark</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value purple">12 pts</div>
+      <div class="stat-label">Below National Average</div>
+      <div class="stat-detail">School mean PR is 38 vs. national 50</div>
+    </div>
+  </div>
+
+  <div class="callout info" style="margin-top:20px;">
+    The school&rsquo;s average student performs at the <strong>38th percentile nationally</strong>, meaning the typical AZIA student scores higher than 38% of same-grade peers across the country. Closing this 12-point gap to the national median is an achievable near-term goal.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 5: SECTION DIVIDER ============ -->
+<section>
+  <div class="section-slide">
+    <div class="section-num">Section 2</div>
+    <h2>Class Comparison</h2>
+    <div class="section-desc">How does each class stack up? A side-by-side view of all eight grades.</div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 6: STACKED BAR ============ -->
+<section>
+  <span class="slide-label">Comparison</span>
+  <div class="slide-title">All Classes at a Glance</div>
+  <div class="slide-subtitle">Benchmark distribution by class &mdash; percentage of students in each category</div>
+
+  <div class="chart-container full">
+    <canvas id="stackedBar"></canvas>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--benchmark-green);"></div>At/Above Benchmark</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--benchmark-blue);"></div>On Watch</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--benchmark-amber);"></div>Intervention</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--benchmark-red);"></div>Urgent Intervention</div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 7: MEAN PR ============ -->
+<section>
+  <span class="slide-label">Comparison</span>
+  <div class="slide-title">Mean Percentile Rank by Class</div>
+  <div class="slide-subtitle">The dashed line marks the national 50th percentile &mdash; our target</div>
+
+  <div class="chart-container full">
+    <canvas id="meanPRbar"></canvas>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 8: % AT BENCHMARK ============ -->
+<section>
+  <span class="slide-label">Comparison</span>
+  <div class="slide-title">% of Students At or Above Benchmark</div>
+  <div class="slide-subtitle">Sorted from highest to lowest &mdash; school average shown as dashed line</div>
+
+  <div class="chart-container full">
+    <canvas id="benchPctBar"></canvas>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 9: SECTION DIVIDER ============ -->
+<section>
+  <div class="section-slide">
+    <div class="section-num">Section 3</div>
+    <h2>Class Deep Dives</h2>
+    <div class="section-desc">A closer look at each grade &mdash; the numbers, the story, and what it means.</div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 10: GRADE K ============ -->
+<section>
+  <span class="slide-label">Grade K &middot; Wassick, S.</span>
+  <div class="slide-title" style="font-size:1.8rem;">Kindergarten &mdash; LA-K</div>
+
+  <div class="class-layout">
+    <div class="class-left">
+      <div class="class-meta">
+        <div class="teacher">Teacher: Wassick, S.</div>
+        <div class="count">28</div>
+        <div class="count-label">Students</div>
+      </div>
+      <div class="chart-container" style="width:220px; height:220px;">
+        <canvas id="donutK"></canvas>
+      </div>
+    </div>
+    <div class="class-right">
+      <div class="mini-stats">
+        <div class="mini-stat"><div class="val" style="color:var(--accent-blue-light);">776</div><div class="lbl">Mean SS</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--accent-emerald);">51</div><div class="lbl">Mean PR</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--benchmark-green);">71%</div><div class="lbl">At Benchmark</div></div>
+      </div>
+      <div class="class-narrative success">
+        <strong>The strongest class in the school.</strong> Over 7 in 10 kindergarteners are at or above benchmark, and zero students are in urgent intervention. The mean percentile rank of 51 is the only class in the school that exceeds the national average. This class demonstrates what effective foundational instruction looks like.
+      </div>
+      <div class="bench-bar-wrap">
+        <div class="bench-bar">
+          <div class="seg-above" style="width:71.4%">71%</div>
+          <div class="seg-onwatch" style="width:7.1%"></div>
+          <div class="seg-intervention" style="width:21.4%">21%</div>
+        </div>
+        <div class="bench-labels"><span>0%</span><span>Urgent: 0 &middot; Intervention: 6 &middot; On Watch: 2 &middot; At Benchmark: 20</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 11: GRADE 1 ============ -->
+<section>
+  <span class="slide-label">Grade 1 &middot; Jaffar, M.</span>
+  <div class="slide-title" style="font-size:1.8rem;">Grade 1 &mdash; LA-1</div>
+
+  <div class="class-layout">
+    <div class="class-left">
+      <div class="class-meta">
+        <div class="teacher">Teacher: Jaffar, M.</div>
+        <div class="count">24</div>
+        <div class="count-label">Students</div>
+      </div>
+      <div class="chart-container" style="width:220px; height:220px;">
+        <canvas id="donut1"></canvas>
+      </div>
+    </div>
+    <div class="class-right">
+      <div class="mini-stats">
+        <div class="mini-stat"><div class="val" style="color:var(--accent-blue-light);">777</div><div class="lbl">Mean SS</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--accent-red);">20</div><div class="lbl">Mean PR</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--benchmark-red);">13%</div><div class="lbl">At Benchmark</div></div>
+      </div>
+      <div class="class-narrative alert">
+        <strong>The most concerning class in the school.</strong> Two-thirds of students need intervention. Eight students (33%) are in urgent intervention, including three scoring at the 1st percentile nationally. Only 3 of 24 students meet benchmark. The mean PR of 20 is the lowest in the school &mdash; the average student here outperforms only 1 in 5 peers nationally.
+      </div>
+      <div class="bench-bar-wrap">
+        <div class="bench-bar">
+          <div class="seg-above" style="width:12.5%">13%</div>
+          <div class="seg-onwatch" style="width:20.8%">21%</div>
+          <div class="seg-intervention" style="width:33.3%">33%</div>
+          <div class="seg-urgent" style="width:33.3%">33%</div>
+        </div>
+        <div class="bench-labels"><span>Urgent: 8 &middot; Intervention: 8 &middot; On Watch: 5 &middot; At Benchmark: 3</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 12: GRADE 2 ============ -->
+<section>
+  <span class="slide-label">Grade 2 &middot; Pineda, M.</span>
+  <div class="slide-title" style="font-size:1.8rem;">Grade 2 &mdash; LA-2</div>
+
+  <div class="class-layout">
+    <div class="class-left">
+      <div class="class-meta">
+        <div class="teacher">Teacher: Pineda, M.</div>
+        <div class="count">27</div>
+        <div class="count-label">Students</div>
+      </div>
+      <div class="chart-container" style="width:220px; height:220px;">
+        <canvas id="donut2"></canvas>
+      </div>
+    </div>
+    <div class="class-right">
+      <div class="mini-stats">
+        <div class="mini-stat"><div class="val" style="color:var(--accent-blue-light);">881</div><div class="lbl">Mean SS</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--benchmark-amber);">39</div><div class="lbl">Mean PR</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--benchmark-amber);">44%</div><div class="lbl">At Benchmark</div></div>
+      </div>
+      <div class="class-narrative warning">
+        <strong>A split class with a wide performance gap.</strong> Strong top performers (3 students above PR 76) coexist with 8 students in intervention. Only 1 in urgent intervention. The wide spread suggests this class would benefit most from differentiated instruction to serve both ends of the spectrum.
+      </div>
+      <div class="bench-bar-wrap">
+        <div class="bench-bar">
+          <div class="seg-above" style="width:44.4%">44%</div>
+          <div class="seg-onwatch" style="width:22.2%">22%</div>
+          <div class="seg-intervention" style="width:29.6%">30%</div>
+          <div class="seg-urgent" style="width:3.7%"></div>
+        </div>
+        <div class="bench-labels"><span>Urgent: 1 &middot; Intervention: 8 &middot; On Watch: 6 &middot; At Benchmark: 12</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 13: GRADE 3 ============ -->
+<section>
+  <span class="slide-label">Grade 3 &middot; Walli-Merali, S.</span>
+  <div class="slide-title" style="font-size:1.8rem;">Grade 3 &mdash; LA-3</div>
+
+  <div class="class-layout">
+    <div class="class-left">
+      <div class="class-meta">
+        <div class="teacher">Teacher: Walli-Merali, S.</div>
+        <div class="count">29</div>
+        <div class="count-label">Students</div>
+      </div>
+      <div class="chart-container" style="width:220px; height:220px;">
+        <canvas id="donut3"></canvas>
+      </div>
+    </div>
+    <div class="class-right">
+      <div class="mini-stats">
+        <div class="mini-stat"><div class="val" style="color:var(--accent-blue-light);">920</div><div class="lbl">Mean SS</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--benchmark-amber);">35</div><div class="lbl">Mean PR</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--benchmark-amber);">45%</div><div class="lbl">At Benchmark</div></div>
+      </div>
+      <div class="class-narrative warning">
+        <strong>A bimodal class &mdash; strong top half, struggling bottom.</strong> 13 students are at/above benchmark, but 5 are in urgent intervention. The 227-point SS gap between the highest and lowest scorers is the largest spread in the school. The bottom tier needs focused foundational support.
+      </div>
+      <div class="bench-bar-wrap">
+        <div class="bench-bar">
+          <div class="seg-above" style="width:44.8%">45%</div>
+          <div class="seg-onwatch" style="width:13.8%">14%</div>
+          <div class="seg-intervention" style="width:24.1%">24%</div>
+          <div class="seg-urgent" style="width:17.2%">17%</div>
+        </div>
+        <div class="bench-labels"><span>Urgent: 5 &middot; Intervention: 7 &middot; On Watch: 4 &middot; At Benchmark: 13</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 14: GRADE 4 ============ -->
+<section>
+  <span class="slide-label">Grade 4 &middot; Terchi, A.</span>
+  <div class="slide-title" style="font-size:1.8rem;">Grade 4 &mdash; LA-4</div>
+
+  <div class="class-layout">
+    <div class="class-left">
+      <div class="class-meta">
+        <div class="teacher">Teacher: Terchi, A.</div>
+        <div class="count">31</div>
+        <div class="count-label">Students</div>
+      </div>
+      <div class="chart-container" style="width:220px; height:220px;">
+        <canvas id="donut4"></canvas>
+      </div>
+    </div>
+    <div class="class-right">
+      <div class="mini-stats">
+        <div class="mini-stat"><div class="val" style="color:var(--accent-blue-light);">954</div><div class="lbl">Mean SS</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--accent-red);">30</div><div class="lbl">Mean PR</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--benchmark-red);">32%</div><div class="lbl">At Benchmark</div></div>
+      </div>
+      <div class="class-narrative alert">
+        <strong>Largest class, highest raw number of struggling students.</strong> 14 of 31 students (45%) fall in the Intervention band &mdash; the highest count in the school. The thin On Watch layer (only 3) means students are either clearly above or clearly below, with very little middle ground. This class carries the heaviest intervention workload.
+      </div>
+      <div class="bench-bar-wrap">
+        <div class="bench-bar">
+          <div class="seg-above" style="width:32.3%">32%</div>
+          <div class="seg-onwatch" style="width:9.7%">10%</div>
+          <div class="seg-intervention" style="width:45.2%">45%</div>
+          <div class="seg-urgent" style="width:12.9%">13%</div>
+        </div>
+        <div class="bench-labels"><span>Urgent: 4 &middot; Intervention: 14 &middot; On Watch: 3 &middot; At Benchmark: 10</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 15: GRADE 5 ============ -->
+<section>
+  <span class="slide-label">Grade 5 &middot; Hamzagic, A.</span>
+  <div class="slide-title" style="font-size:1.8rem;">Grade 5 &mdash; LA-5</div>
+
+  <div class="class-layout">
+    <div class="class-left">
+      <div class="class-meta">
+        <div class="teacher">Teacher: Hamzagic, A.</div>
+        <div class="count">24</div>
+        <div class="count-label">Students</div>
+      </div>
+      <div class="chart-container" style="width:220px; height:220px;">
+        <canvas id="donut5"></canvas>
+      </div>
+    </div>
+    <div class="class-right">
+      <div class="mini-stats">
+        <div class="mini-stat"><div class="val" style="color:var(--accent-blue-light);">1013</div><div class="lbl">Mean SS</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--benchmark-amber);">39</div><div class="lbl">Mean PR</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--benchmark-amber);">42%</div><div class="lbl">At Benchmark</div></div>
+      </div>
+      <div class="class-narrative" style="border-left-color: var(--accent-purple);">
+        <strong>The &ldquo;opportunity&rdquo; class.</strong> Seven students (29%) sit in the On Watch band, just below the benchmark cutoff. This is the largest On Watch cluster in the school. Targeted, focused support for this group could meaningfully shift the class &mdash; and the school&rsquo;s &mdash; overall numbers. Two exceptional outliers at the top (PR 96 and PR 99).
+      </div>
+      <div class="bench-bar-wrap">
+        <div class="bench-bar">
+          <div class="seg-above" style="width:41.7%">42%</div>
+          <div class="seg-onwatch" style="width:29.2%">29%</div>
+          <div class="seg-intervention" style="width:20.8%">21%</div>
+          <div class="seg-urgent" style="width:8.3%">8%</div>
+        </div>
+        <div class="bench-labels"><span>Urgent: 2 &middot; Intervention: 5 &middot; On Watch: 7 &middot; At Benchmark: 10</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 16: GRADE 6 ============ -->
+<section>
+  <span class="slide-label">Grade 6 &middot; Ullah, A.</span>
+  <div class="slide-title" style="font-size:1.8rem;">Grade 6 &mdash; LA-6</div>
+
+  <div class="class-layout">
+    <div class="class-left">
+      <div class="class-meta">
+        <div class="teacher">Teacher: Ullah, A.</div>
+        <div class="count">19</div>
+        <div class="count-label">Students</div>
+      </div>
+      <div class="chart-container" style="width:220px; height:220px;">
+        <canvas id="donut6"></canvas>
+      </div>
+    </div>
+    <div class="class-right">
+      <div class="mini-stats">
+        <div class="mini-stat"><div class="val" style="color:var(--accent-blue-light);">1064</div><div class="lbl">Mean SS</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--accent-emerald);">54</div><div class="lbl">Mean PR</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--benchmark-green);">68%</div><div class="lbl">At Benchmark</div></div>
+      </div>
+      <div class="class-narrative success">
+        <strong>Second strongest class and highest mean PR in the school.</strong> The mean percentile of 54 exceeds the national average. Nearly 7 in 10 students are at/above benchmark, and zero are in urgent intervention. Only 2 students need intervention. Smallest class size (19) may be a contributing factor &mdash; a model for what smaller, focused instruction can achieve.
+      </div>
+      <div class="bench-bar-wrap">
+        <div class="bench-bar">
+          <div class="seg-above" style="width:68.4%">68%</div>
+          <div class="seg-onwatch" style="width:21.1%">21%</div>
+          <div class="seg-intervention" style="width:10.5%">11%</div>
+        </div>
+        <div class="bench-labels"><span>Urgent: 0 &middot; Intervention: 2 &middot; On Watch: 4 &middot; At Benchmark: 13</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE 17: GRADE 7 ============ -->
+<section>
+  <span class="slide-label">Grade 7 &middot; Blinn, N.</span>
+  <div class="slide-title" style="font-size:1.8rem;">Grade 7 &mdash; LA-7</div>
+
+  <div class="class-layout">
+    <div class="class-left">
+      <div class="class-meta">
+        <div class="teacher">Teacher: Blinn, N.</div>
+        <div class="count">21</div>
+        <div class="count-label">Students</div>
+      </div>
+      <div class="chart-container" style="width:220px; height:220px;">
+        <canvas id="donut7"></canvas>
+      </div>
+    </div>
+    <div class="class-right">
+      <div class="mini-stats">
+        <div class="mini-stat"><div class="val" style="color:var(--accent-blue-light);">1053</div><div class="lbl">Mean SS</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--benchmark-amber);">42</div><div class="lbl">Mean PR</div></div>
+        <div class="mini-stat"><div class="val" style="color:var(--benchmark-amber);">48%</div><div class="lbl">At Benchmark</div></div>
+      </div>
+      <div class="class-narrative">
+        <strong>Solid overall, with a large &ldquo;On Watch&rdquo; cluster.</strong> Nearly half at/above benchmark. Six students (29%) sit in On Watch, tightly clustered around the benchmark threshold. Only 1 urgent intervention student. The 4 intervention-level students and 6 on-watch students together represent a manageable cohort for targeted support at this critical pre-high-school year.
+      </div>
+      <div class="bench-bar-wrap">
+        <div class="bench-bar">
+          <div class="seg-above" style="width:47.6%">48%</div>
+          <div class="seg-onwatch" style="width:28.6%">29%</div>
+          <div class="seg-intervention" style="width:19.0%">19%</div>
+          <div class="seg-urgent" style="width:4.8%">5%</div>
+        </div>
+        <div class="bench-labels"><span>Urgent: 1 &middot; Intervention: 4 &middot; On Watch: 6 &middot; At Benchmark: 10</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE: DISTANCE TO BENCHMARK ============ -->
+<section>
+  <span class="slide-label">Deeper Look</span>
+  <div class="slide-title">How Far Is Each Class From Benchmark?</div>
+  <div class="slide-subtitle">Average distance in Scaled Score points from the grade&rsquo;s &ldquo;At/Above&rdquo; cutoff &mdash; positive = above, negative = below</div>
+
+  <div class="chart-container" style="width:100%; height:340px;">
+    <canvas id="deltaChart"></canvas>
+  </div>
+
+  <div class="callout info" style="margin-top:14px;">
+    <strong>This view compares apples to apples across grades.</strong> Because each grade has a different benchmark cutoff, raw scores can&rsquo;t be compared directly. Instead, we measure how far each class&rsquo;s average is from <em>its own grade&rsquo;s</em> benchmark. Grade 1 averages <strong>47 points below</strong> its cutoff &mdash; Grade 6 averages <strong>24 points above</strong>.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE: CONFIDENCE IN THE DATA ============ -->
+<section>
+  <span class="slide-label">Deeper Look</span>
+  <div class="slide-title">How Confident Are We in These Numbers?</div>
+  <div class="slide-subtitle">Each class&rsquo;s &ldquo;At/Above&rdquo; rate has a range of uncertainty depending on class size</div>
+
+  <div class="chart-container" style="width:100%; height:320px;">
+    <canvas id="ciChart"></canvas>
+  </div>
+
+  <div class="callout info" style="margin-top:14px;">
+    <strong>What does the range mean?</strong> With a class of 24 students, if we measured again we&rsquo;d expect the true rate to fall within the gray range 95% of the time. <strong>Grade 1&rsquo;s range (4%&ndash;31%) doesn&rsquo;t overlap with Grade K&rsquo;s (54%&ndash;85%)</strong> &mdash; meaning the difference between them is real, not just chance. Statistical testing confirms class differences are <strong>meaningful, not random</strong>.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE: BENCHMARK REFERENCE ============ -->
+<section>
+  <span class="slide-label">Reference</span>
+  <div class="slide-title">Grade-Level Benchmark Cutoffs</div>
+  <div class="slide-subtitle">District benchmark Scaled Score thresholds used in this report</div>
+
+  <div style="overflow-x:auto; margin-top:16px;">
+    <table style="width:100%; border-collapse:separate; border-spacing:4px; font-size:0.82rem;">
+      <thead>
+        <tr>
+          <th style="text-align:left; padding:10px 14px; color:var(--text-muted); font-weight:600;">Grade</th>
+          <th style="text-align:center; padding:10px 14px; background:rgba(239,68,68,0.15); color:var(--benchmark-red); font-weight:600; border-radius:6px;">Urgent Intervention</th>
+          <th style="text-align:center; padding:10px 14px; background:rgba(245,158,11,0.15); color:var(--benchmark-amber); font-weight:600; border-radius:6px;">Intervention</th>
+          <th style="text-align:center; padding:10px 14px; background:rgba(59,130,246,0.15); color:var(--accent-blue-light); font-weight:600; border-radius:6px;">On Watch</th>
+          <th style="text-align:center; padding:10px 14px; background:rgba(16,185,129,0.15); color:var(--benchmark-green); font-weight:600; border-radius:6px;">At/Above Benchmark</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:8px 14px; color:var(--text-primary); font-weight:600; background:var(--bg-card); border-radius:6px;">K</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">600&ndash;710</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">711&ndash;739</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">740&ndash;760</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary); font-weight:600;">761+</td></tr>
+        <tr><td style="padding:8px 14px; color:var(--text-primary); font-weight:600; background:var(--bg-card); border-radius:6px;">1</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">600&ndash;766</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">767&ndash;801</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">802&ndash;823</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary); font-weight:600;">824+</td></tr>
+        <tr><td style="padding:8px 14px; color:var(--text-primary); font-weight:600; background:var(--bg-card); border-radius:6px;">2</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">600&ndash;821</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">822&ndash;860</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">861&ndash;884</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary); font-weight:600;">885+</td></tr>
+        <tr><td style="padding:8px 14px; color:var(--text-primary); font-weight:600; background:var(--bg-card); border-radius:6px;">3</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">600&ndash;861</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">862&ndash;910</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">911&ndash;940</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary); font-weight:600;">941+</td></tr>
+        <tr><td style="padding:8px 14px; color:var(--text-primary); font-weight:600; background:var(--bg-card); border-radius:6px;">4</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">600&ndash;899</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">900&ndash;953</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">954&ndash;984</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary); font-weight:600;">985+</td></tr>
+        <tr><td style="padding:8px 14px; color:var(--text-primary); font-weight:600; background:var(--bg-card); border-radius:6px;">5</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">600&ndash;928</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">929&ndash;983</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">984&ndash;1016</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary); font-weight:600;">1017+</td></tr>
+        <tr><td style="padding:8px 14px; color:var(--text-primary); font-weight:600; background:var(--bg-card); border-radius:6px;">6</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">600&ndash;949</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">950&ndash;1005</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">1006&ndash;1039</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary); font-weight:600;">1040+</td></tr>
+        <tr><td style="padding:8px 14px; color:var(--text-primary); font-weight:600; background:var(--bg-card); border-radius:6px;">7</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">600&ndash;962</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">963&ndash;1019</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary);">1020&ndash;1055</td><td style="text-align:center; padding:8px; background:var(--bg-card); border-radius:6px; color:var(--text-secondary); font-weight:600;">1056+</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout" style="background:rgba(148,163,184,0.06); border:1px solid rgba(148,163,184,0.15); margin-top:14px;">
+    <strong>Note:</strong> These are <strong>Renaissance Star Math Enterprise</strong> benchmarks on the Star Unified Scale (not STAAR). The benchmark cutoff increases with each grade, reflecting higher expectations as students progress. A student&rsquo;s score can be compared only within their grade&rsquo;s thresholds.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SECTION: DOMAIN MASTERY ============ -->
+<section>
+  <div class="section-slide">
+    <div class="section-num">Section 4</div>
+    <h2>Domain Mastery</h2>
+    <div class="section-desc">How deeply have students mastered each math domain? Data from Renaissance State Standards Mastery reports.</div>
+  </div>
+</section>
+
+<!-- ============ SLIDE: DOMAIN CONTEXT ============ -->
+<section>
+  <span class="slide-label">Domain Mastery</span>
+  <div class="slide-title">Understanding Domain Mastery</div>
+  <div class="slide-subtitle">Star Math measures mastery across four core math domains (five in Grades 6&ndash;7)</div>
+
+  <div class="stat-grid cols-2" style="margin-bottom:14px;">
+    <div class="stat-card" style="border-left:4px solid #60a5fa;">
+      <div class="stat-value blue" style="font-size:1.3rem;">Numbers &amp; Operations</div>
+      <div class="stat-detail" style="font-size:0.8rem; color:var(--text-secondary); margin-top:8px; line-height:1.5;">
+        Counting, place value, whole numbers, fractions, decimals, and arithmetic. The foundational domain.
+      </div>
+    </div>
+    <div class="stat-card" style="border-left:4px solid var(--accent-purple);">
+      <div class="stat-value purple" style="font-size:1.3rem;">Algebra</div>
+      <div class="stat-detail" style="font-size:0.8rem; color:var(--text-secondary); margin-top:8px; line-height:1.5;">
+        Patterns, algebraic thinking, expressions, equations, and inequalities.
+      </div>
+    </div>
+    <div class="stat-card" style="border-left:4px solid var(--benchmark-amber);">
+      <div class="stat-value amber" style="font-size:1.3rem;">Measurement &amp; Data</div>
+      <div class="stat-detail" style="font-size:0.8rem; color:var(--text-secondary); margin-top:8px; line-height:1.5;">
+        Units, money, time, data representation, and interpreting graphs and charts.
+      </div>
+    </div>
+    <div class="stat-card" style="border-left:4px solid var(--benchmark-red);">
+      <div class="stat-value red" style="font-size:1.3rem;">Geometry</div>
+      <div class="stat-detail" style="font-size:0.8rem; color:var(--text-secondary); margin-top:8px; line-height:1.5;">
+        Shapes, spatial reasoning, area, perimeter, angles, and transformations.
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-grid cols-3">
+    <div class="stat-card" style="border-top:3px solid var(--benchmark-red); text-align:center;">
+      <div class="stat-value red" style="font-size:1.6rem;">Beginning</div>
+      <div class="stat-detail" style="font-size:0.85rem; margin-top:4px;">0&ndash;59% mastery</div>
+    </div>
+    <div class="stat-card" style="border-top:3px solid var(--benchmark-amber); text-align:center;">
+      <div class="stat-value amber" style="font-size:1.6rem;">Developing</div>
+      <div class="stat-detail" style="font-size:0.85rem; margin-top:4px;">60&ndash;79% mastery</div>
+    </div>
+    <div class="stat-card" style="border-top:3px solid var(--benchmark-green); text-align:center;">
+      <div class="stat-value green" style="font-size:1.6rem;">Secure</div>
+      <div class="stat-detail" style="font-size:0.85rem; margin-top:4px;">80&ndash;100% mastery</div>
+    </div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; State Standards Mastery &middot; 2025&ndash;2026</div>
+</section>
+
+<!-- ============ SLIDE: DOMAIN HEATMAP ============ -->
+<section>
+  <span class="slide-label">Domain Mastery</span>
+  <div class="slide-title">Domain Mastery Heatmap</div>
+  <div class="slide-subtitle">Current average mastery % by grade and domain &mdash; darker red = lower mastery</div>
+
+  <div style="overflow-x:auto; margin-top:16px;">
+    <table style="width:100%; border-collapse:separate; border-spacing:6px; font-size:0.82rem;">
+      <thead>
+        <tr>
+          <th style="text-align:left; padding:10px 14px; color:var(--text-muted); font-weight:600; width:110px;"></th>
+          <th style="text-align:center; padding:10px 14px; color:var(--text-secondary); font-weight:600;">Num &amp; Ops</th>
+          <th style="text-align:center; padding:10px 14px; color:var(--text-secondary); font-weight:600;">Algebra</th>
+          <th style="text-align:center; padding:10px 14px; color:var(--text-secondary); font-weight:600;">Meas &amp; Data</th>
+          <th style="text-align:center; padding:10px 14px; color:var(--text-secondary); font-weight:600;">Geometry</th>
+        </tr>
+      </thead>
+      <tbody id="heatmapBody"></tbody>
+    </table>
+  </div>
+
+  <div class="legend" style="margin-top:16px;">
+    <div class="legend-item"><div class="legend-dot" style="background:#dc2626;"></div>Beginning (&lt;40%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f97316;"></div>Low Beginning (40&ndash;49%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#eab308;"></div>High Beginning (50&ndash;59%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#84cc16;"></div>Developing (60&ndash;69%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#22c55e;"></div>Secure (70%+)</div>
+  </div>
+
+  <div class="callout danger" style="margin-top:12px;">
+    <strong>Geometry is the weakest domain across every single grade</strong> &mdash; no class exceeds 44% mastery. The deepest gaps are in Grade 4 (21%) and Grade 7 (30%). This is a school-wide structural weakness that demands a coordinated response.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; State Standards Mastery &middot; 2025&ndash;2026</div>
+</section>
+
+<!-- ============ SLIDE: GEOMETRY CRISIS ============ -->
+<section>
+  <span class="slide-label">Domain Mastery</span>
+  <div class="slide-title">Geometry: A School-Wide Gap</div>
+  <div class="slide-subtitle">Average mastery by grade &mdash; every class is at &ldquo;Beginning&rdquo; level</div>
+
+  <div class="chart-container" style="width:100%; height:340px;">
+    <canvas id="geometryBar"></canvas>
+  </div>
+
+  <div class="callout danger" style="margin-top:14px;">
+    <strong>No class exceeds 44% mastery in Geometry.</strong> In Grades 4&ndash;7, mastery averages just 29%. Specific sub-standards like perimeter &amp; area, surface area &amp; volume, and angle relationships are especially weak. This suggests geometry instruction may need a fundamental rethink &mdash; more hands-on activities, visual models, and dedicated instructional time.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; State Standards Mastery &middot; 2025&ndash;2026</div>
+</section>
+
+<!-- ============ SLIDE: STRONGEST VS WEAKEST ============ -->
+<section>
+  <span class="slide-label">Domain Mastery</span>
+  <div class="slide-title">Strongest vs. Weakest Domain per Grade</div>
+  <div class="slide-subtitle">The gap between a class&rsquo;s best and worst domain reveals where to focus</div>
+
+  <div class="chart-container" style="width:100%; height:360px;">
+    <canvas id="domainRangeChart"></canvas>
+  </div>
+
+  <div class="callout info" style="margin-top:14px;">
+    <strong>Every grade&rsquo;s weakest domain is Geometry.</strong> The largest gap between strongest and weakest is in <strong>Grade K</strong> (24 points: Numbers 68% vs Geometry 44%) and <strong>Grade 2</strong> (29 points: Numbers 66% vs Geometry 37%). Closing these within-class domain gaps is as important as raising overall scores.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; State Standards Mastery &middot; 2025&ndash;2026</div>
+</section>
+
+<!-- ============ SLIDE: GROWTH PROJECTIONS ============ -->
+<section>
+  <span class="slide-label">Growth</span>
+  <div class="slide-title">Current vs. Projected End-of-Year Mastery</div>
+  <div class="slide-subtitle">Renaissance projects how much growth each class will make by year-end</div>
+
+  <div class="chart-container" style="width:100%; height:340px;">
+    <canvas id="growthChart"></canvas>
+  </div>
+
+  <div class="callout info" style="margin-top:14px;">
+    <strong>Projected growth averages 10&ndash;14 percentage points</strong> across all grades. Kindergarten is projected to reach 78% in Numbers &amp; Operations (Secure level). However, even with projected growth, Grade 1 and Grade 4 are expected to remain below 50% in most domains &mdash; additional intervention is needed to accelerate beyond the projected trajectory.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; State Standards Mastery &middot; 2025&ndash;2026</div>
+</section>
+
+<!-- ============ SECTION 5: INSIGHTS & RECOMMENDATIONS ============ -->
+<section>
+  <div class="section-slide">
+    <div class="section-num">Section 5</div>
+    <h2>Insights &amp; Recommendations</h2>
+    <div class="section-desc">Bringing it all together &mdash; what the data tells us and what to do next.</div>
+  </div>
+</section>
+
+<!-- ============ SLIDE: STRENGTHS ============ -->
+<section>
+  <span class="slide-label">Insights</span>
+  <div class="slide-title">What&rsquo;s Working Well</div>
+  <div class="slide-subtitle">Pockets of strength across the school</div>
+
+  <div class="insight-grid">
+    <div class="insight-card" style="border-top: 3px solid var(--benchmark-green);">
+      <h3><span style="color:var(--benchmark-green);">&#9679;</span> Kindergarten Excellence</h3>
+      <p>71% at/above benchmark with zero urgent interventions. The only class exceeding the national PR average. Whatever foundational instruction strategies are being used here should be studied and shared with other grades.</p>
+    </div>
+    <div class="insight-card" style="border-top: 3px solid var(--benchmark-green);">
+      <h3><span style="color:var(--benchmark-green);">&#9679;</span> Grade 6 Leads Upper School</h3>
+      <p>68% at benchmark, mean PR of 54 (above national average), zero urgent interventions. Smallest class size (19) may contribute. This class shows that AZIA students can compete nationally when conditions are right.</p>
+    </div>
+    <div class="insight-card" style="border-top: 3px solid var(--benchmark-green);">
+      <h3><span style="color:var(--benchmark-green);">&#9679;</span> Exceptional Individual Talent</h3>
+      <p>Several students perform at elite levels: PR 99, 98, 96, 95, 93 across multiple grades. This demonstrates the school&rsquo;s capacity to develop high-achieving math students when the conditions are right.</p>
+    </div>
+    <div class="insight-card" style="border-top: 3px solid var(--benchmark-green);">
+      <h3><span style="color:var(--benchmark-green);">&#9679;</span> Upper Grades Outperform</h3>
+      <p>Grades 5, 6, and 7 all have mean PR above 39 and 42&ndash;68% at benchmark. The school&rsquo;s math program appears to strengthen as students progress, suggesting the cumulative effect of instruction is positive.</p>
+    </div>
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE: CONCERNS ============ -->
+<section>
+  <span class="slide-label">Insights</span>
+  <div class="slide-title">Areas of Concern</div>
+  <div class="slide-subtitle">Where the data signals a need for immediate attention</div>
+
+  <div class="two-col">
+    <div>
+      <div class="stat-card glow-red" style="margin-bottom:14px; border-left:4px solid var(--benchmark-red);">
+        <div class="stat-value red" style="font-size:1.4rem;">Grade 1: Systemic Concern</div>
+        <div class="stat-detail" style="font-size:0.82rem; color:var(--text-secondary); margin-top:10px; line-height:1.65;">
+          &bull; <strong>66% of students</strong> need intervention or urgent support<br>
+          &bull; <strong>8 students at urgent level</strong> (3 at the 1st percentile)<br>
+          &bull; Mean PR of <strong>20</strong> &mdash; lowest in school, 30 points below national<br>
+          &bull; Only <strong>3 of 24</strong> students meet benchmark<br><br>
+          This is not a few struggling students &mdash; it&rsquo;s a class-wide pattern that likely requires structural changes to instruction, pacing, or resources.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="stat-card glow-red" style="margin-bottom:14px; border-left:4px solid var(--benchmark-amber);">
+        <div class="stat-value amber" style="font-size:1.4rem;">Grade 4: Volume Problem</div>
+        <div class="stat-detail" style="font-size:0.82rem; color:var(--text-secondary); margin-top:10px; line-height:1.65;">
+          &bull; <strong>14 of 31 students</strong> (45%) in Intervention band<br>
+          &bull; <strong>4 more in Urgent</strong> Intervention<br>
+          &bull; Largest class in the school (31 students)<br>
+          &bull; Only 10% On Watch &mdash; students are either above or well below<br><br>
+          The combination of largest class size and highest number of struggling students creates an unsustainable workload without additional support resources.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="callout danger">
+    <strong>Together, Grades 1 and 4 account for 34 of the school&rsquo;s 75 intervention/urgent students (45%).</strong> Concentrating support resources here yields the highest return.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE: OPPORTUNITY ZONE ============ -->
+<section>
+  <span class="slide-label">Insights</span>
+  <div class="slide-title">The Opportunity Zone</div>
+  <div class="slide-subtitle">37 &ldquo;On Watch&rdquo; students sit just below benchmark &mdash; a targeted push could tip the scales</div>
+
+  <div class="chart-container" style="width:100%; height:300px;">
+    <canvas id="onWatchBar"></canvas>
+  </div>
+
+  <div class="callout info" style="margin-top:16px;">
+    <strong>If just half of On Watch students moved to benchmark</strong>, the school&rsquo;s At/Above rate would jump from 44.8% to <strong>53.9%</strong> &mdash; crossing the majority threshold. Grades 5 and 7, with 7 and 6 On Watch students respectively, are the highest-leverage targets for this push.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE: INTERVENTION NEEDS ============ -->
+<section>
+  <span class="slide-label">Insights</span>
+  <div class="slide-title">Intervention Needs by Grade</div>
+  <div class="slide-subtitle">Number of students requiring Intervention or Urgent Intervention support</div>
+
+  <div class="chart-container" style="width:100%; height:340px;">
+    <canvas id="interventionBar"></canvas>
+  </div>
+
+  <div class="callout warning" style="margin-top:14px;">
+    <strong>75 students school-wide</strong> need intervention-level support (54 Intervention + 21 Urgent). Grade 1 carries the most urgent cases (8), while Grade 4 has the highest total intervention count (18).
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE: GRADE PROGRESSION ============ -->
+<section>
+  <span class="slide-label">Insights</span>
+  <div class="slide-title">Grade Progression: Mean Percentile Over Time</div>
+  <div class="slide-subtitle">How does average performance change as students move through grades?</div>
+
+  <div class="chart-container" style="width:100%; height:340px;">
+    <canvas id="progressionLine"></canvas>
+  </div>
+
+  <div class="callout info" style="margin-top:14px;">
+    <strong>The &ldquo;Grade 1 dip&rdquo; is dramatic.</strong> Students enter Kindergarten performing at the national average (PR 51), then drop sharply to PR 20 in Grade 1. Recovery begins in Grade 2 and continues upward through Grade 6. This pattern suggests the K&ndash;1 transition is a critical breakpoint that needs investigation.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE: CRITICAL SKILL GAPS ============ -->
+<section>
+  <span class="slide-label">Insights</span>
+  <div class="slide-title">Critical Skill Gaps Across the School</div>
+  <div class="slide-subtitle">Specific standards with the lowest mastery &mdash; where instructional focus is most needed</div>
+
+  <div class="stat-grid cols-2" style="gap:12px;">
+    <div class="stat-card glow-red" style="border-left:4px solid var(--benchmark-red);">
+      <div class="stat-value red" style="font-size:1.1rem;">Fractions (Grades 3&ndash;6)</div>
+      <div class="stat-detail" style="font-size:0.8rem; color:var(--text-secondary); margin-top:8px; line-height:1.55;">
+        Fraction concepts: 26&ndash;38% &bull; Fraction operations: 23&ndash;28%<br>
+        Students struggle with the conceptual foundations. Fractions are the #1 predictor of algebra readiness.
+      </div>
+    </div>
+    <div class="stat-card glow-red" style="border-left:4px solid var(--benchmark-red);">
+      <div class="stat-value red" style="font-size:1.1rem;">Geometry (All Grades)</div>
+      <div class="stat-detail" style="font-size:0.8rem; color:var(--text-secondary); margin-top:8px; line-height:1.55;">
+        Perimeter &amp; area: 19&ndash;33% &bull; Surface area &amp; volume: 21&ndash;28%<br>
+        Spatial reasoning and measurement-based geometry are critically underdeveloped.
+      </div>
+    </div>
+    <div class="stat-card glow-red" style="border-left:4px solid var(--benchmark-amber);">
+      <div class="stat-value amber" style="font-size:1.1rem;">Algebraic Expressions (Grades 5&ndash;7)</div>
+      <div class="stat-detail" style="font-size:0.8rem; color:var(--text-secondary); margin-top:8px; line-height:1.55;">
+        Expressions &amp; inequalities: 26&ndash;38% &bull; Open sentences: 27&ndash;35%<br>
+        The transition from arithmetic to algebraic thinking is a major hurdle.
+      </div>
+    </div>
+    <div class="stat-card glow-red" style="border-left:4px solid var(--benchmark-amber);">
+      <div class="stat-value amber" style="font-size:1.1rem;">Measurement &amp; Unit Conversion (Grades 4&ndash;7)</div>
+      <div class="stat-detail" style="font-size:0.8rem; color:var(--text-secondary); margin-top:8px; line-height:1.55;">
+        Measurement: 14&ndash;35% &bull; Unit conversions: 24&ndash;45%<br>
+        Practical measurement skills are far below where they need to be.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warning" style="margin-top:14px;">
+    <strong>Pattern:</strong> The skill gaps are not random. They cluster around <em>conceptual understanding</em> (fractions, spatial reasoning, algebraic thinking) rather than procedural skills. This suggests instruction may be over-emphasizing procedures and under-investing in building conceptual foundations.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; State Standards Mastery &middot; 2025&ndash;2026</div>
+</section>
+
+<!-- ============ SLIDE: WITHIN-CLASS SPREAD ============ -->
+<section>
+  <span class="slide-label">Insights</span>
+  <div class="slide-title">Within-Class Spread</div>
+  <div class="slide-subtitle">How uniform vs. diverse are student needs within each class?</div>
+
+  <div class="stat-grid cols-3" style="margin-top:16px;">
+    <div class="stat-card" style="text-align:center;">
+      <div class="stat-value white" style="font-size:2.2rem;">59 pts</div>
+      <div class="stat-label">Gap: Best vs. Worst Class</div>
+      <div class="stat-detail">K at 71.4% vs Grade 1 at 12.5% &mdash; statistically confirmed as real, not random</div>
+    </div>
+    <div class="stat-card" style="text-align:center; border-top:3px solid var(--benchmark-green);">
+      <div class="stat-value green" style="font-size:2.2rem;">42</div>
+      <div class="stat-label">Tightest Spread (SD)</div>
+      <div class="stat-detail">Grade 2 &mdash; most uniform student needs</div>
+    </div>
+    <div class="stat-card" style="text-align:center; border-top:3px solid var(--benchmark-amber);">
+      <div class="stat-value amber" style="font-size:2.2rem;">60</div>
+      <div class="stat-label">Widest Spread (SD)</div>
+      <div class="stat-detail">Grade 5 &mdash; most diverse student needs</div>
+    </div>
+  </div>
+
+  <div class="callout info" style="margin-top:16px;">
+    Classes with tighter score spread (like Grade 2, SD=42.0) have more uniform needs and respond well to whole-class instruction adjustments. Classes with wider spread (like Grade 5, SD=60.4) need more differentiation &mdash; different students need different things.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE: MTSS FRAMEWORK ============ -->
+<section>
+  <span class="slide-label">Recommendations</span>
+  <div class="slide-title">Support Framework: Where Does Each Class Fall?</div>
+  <div class="slide-subtitle">A tiered support model based on each class&rsquo;s data profile</div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:12px;">
+    <div class="stat-card" style="border-left:5px solid var(--benchmark-green); padding:18px 20px;">
+      <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--benchmark-green); font-weight:700; margin-bottom:6px;">Maintain &amp; Enrich</div>
+      <div style="font-size:1.5rem; font-weight:800; color:var(--text-primary); margin-bottom:4px;">Grade K &amp; Grade 6</div>
+      <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.6;">
+        &gt;50% at benchmark, &lt;20% urgent+intervention.<br>
+        <strong>Action:</strong> Protect what&rsquo;s working. Add enrichment for top students. Monitor the small below-benchmark group closely.
+      </div>
+    </div>
+    <div class="stat-card" style="border-left:5px solid var(--benchmark-blue); padding:18px 20px;">
+      <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-blue-light); font-weight:700; margin-bottom:6px;">Strengthen + Targeted Support</div>
+      <div style="font-size:1.5rem; font-weight:800; color:var(--text-primary); margin-bottom:4px;">Grades 2, 3, 5, 7</div>
+      <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.6;">
+        30&ndash;50% at benchmark, moderate intervention needs.<br>
+        <strong>Action:</strong> Adjust core instruction pacing. Add small-group supports for intervention-band students. Progress-check monthly.
+      </div>
+    </div>
+    <div class="stat-card" style="border-left:5px solid var(--benchmark-red); padding:18px 20px; grid-column:1/3;">
+      <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--benchmark-red); font-weight:700; margin-bottom:6px;">Highest Priority &mdash; Intensive Intervention</div>
+      <div style="font-size:1.5rem; font-weight:800; color:var(--text-primary); margin-bottom:4px;">Grade 1 &amp; Grade 4</div>
+      <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.6;">
+        &lt;35% at benchmark, &gt;40% in urgent+intervention. Class average is <strong>below the benchmark cutoff</strong>.<br>
+        <strong>Action:</strong> Increase daily protected math instruction time. Add intensive small-group supports (Tier 2/3). Re-teach prerequisite skills while maintaining grade-level exposure. Progress-check <strong>weekly or biweekly</strong>.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="background:rgba(148,163,184,0.06); border:1px solid rgba(148,163,184,0.15); margin-top:12px;">
+    This aligns with <strong>MTSS (Multi-Tiered System of Supports)</strong> best practices: strengthen core instruction first, then layer targeted interventions, with evidence-based progress monitoring at each tier.
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE: MERGED RECOMMENDATIONS ============ -->
+<section>
+  <span class="slide-label">Recommendations</span>
+  <div class="slide-title">Recommended Actions</div>
+  <div class="slide-subtitle">Data-informed priorities for administration and staff &mdash; from performance, domain mastery, and growth data</div>
+
+  <ul class="action-list">
+    <li>
+      <span class="action-num">1</span>
+      <div><strong>Investigate the K-to-1 Drop:</strong> The 31-point PR collapse from Kindergarten (51) to Grade 1 (20) is the single most alarming finding. Conduct a curriculum and instructional strategy review for this transition. Consider whether pacing, materials, or differentiation practices differ significantly.</div>
+    </li>
+    <li>
+      <span class="action-num">2</span>
+      <div><strong>Prioritize Grade 1 & Grade 4 Resources:</strong> These two classes account for 45% of all intervention-level students. Consider additional instructional aides, smaller pull-out groups, or dedicated intervention blocks specifically for these grades.</div>
+    </li>
+    <li>
+      <span class="action-num">3</span>
+      <div><strong>Target the On Watch Cohort in Grades 5 & 7:</strong> Thirteen students across these two grades are close to benchmark. Focused small-group instruction or after-school tutoring for this cohort could move the school&rsquo;s overall benchmark rate above 50%.</div>
+    </li>
+    <li>
+      <span class="action-num">4</span>
+      <div><strong>Study What Works in K & Grade 6:</strong> These classes achieve 71% and 68% at benchmark respectively. Document their instructional practices, grouping strategies, and pacing &mdash; then create a playbook that other grades can adapt.</div>
+    </li>
+    <li>
+      <span class="action-num">5</span>
+      <div><strong>Monitor Class Size Impact:</strong> Grade 6 (19 students, 68% at benchmark) and Grade 4 (31 students, 32% at benchmark) suggest class size may be a factor. Evaluate whether redistributing resources to reduce the largest class sizes is feasible.</div>
+    </li>
+    <li>
+      <span class="action-num" style="background:var(--benchmark-red);">6</span>
+      <div><strong>Launch a School-Wide Geometry Initiative:</strong> Geometry is below 44% mastery in every grade. Consider dedicated geometry blocks, hands-on manipulatives, visual/spatial reasoning activities, and professional development focused specifically on geometry instruction.</div>
+    </li>
+    <li>
+      <span class="action-num" style="background:var(--benchmark-red);">7</span>
+      <div><strong>Strengthen Fraction Foundations in Grades 3&ndash;5:</strong> Fraction mastery (23&ndash;38%) is critically low and directly impacts algebra readiness. Prioritize fraction concepts using visual models (number lines, area models) before moving to procedures.</div>
+    </li>
+    <li>
+      <span class="action-num" style="background:var(--benchmark-amber);">8</span>
+      <div><strong>Shift Toward Conceptual Instruction:</strong> The pattern of weak conceptual domains (geometry, fractions, algebraic thinking) alongside relatively stronger procedural domains suggests a need to rebalance instruction toward deeper understanding.</div>
+    </li>
+    <li>
+      <span class="action-num" style="background:var(--benchmark-amber);">9</span>
+      <div><strong>Use Projected Growth Data to Set Targets:</strong> Renaissance projects 10&ndash;14 point gains by year-end. Classes where actual growth exceeds projections should be celebrated. Classes falling short of projections need mid-year intervention adjustments.</div>
+    </li>
+    <li>
+      <span class="action-num" style="background:var(--accent-blue);">10</span>
+      <div><strong>Set a School Goal Metric:</strong> Adopt At/Above Benchmark % as the primary outcome metric for this cycle, with Urgent Intervention % as a secondary watchpoint. Track these quarterly with the same Star Math assessment to measure progress.</div>
+    </li>
+  </ul>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE: DASHBOARD ============ -->
+<section>
+  <span class="slide-label">Summary</span>
+  <div class="slide-title">School Dashboard</div>
+  <div class="slide-subtitle">All key metrics in one view</div>
+
+  <div class="dashboard-grid">
+    <div class="dashboard-cell"><div class="dc-grade">Grade K</div><div class="dc-val" style="color:var(--benchmark-green);">71%</div><div class="dc-sub">At Benchmark &middot; PR 51</div></div>
+    <div class="dashboard-cell"><div class="dc-grade">Grade 1</div><div class="dc-val" style="color:var(--benchmark-red);">13%</div><div class="dc-sub">At Benchmark &middot; PR 20</div></div>
+    <div class="dashboard-cell"><div class="dc-grade">Grade 2</div><div class="dc-val" style="color:var(--benchmark-amber);">44%</div><div class="dc-sub">At Benchmark &middot; PR 39</div></div>
+    <div class="dashboard-cell"><div class="dc-grade">Grade 3</div><div class="dc-val" style="color:var(--benchmark-amber);">45%</div><div class="dc-sub">At Benchmark &middot; PR 35</div></div>
+    <div class="dashboard-cell"><div class="dc-grade">Grade 4</div><div class="dc-val" style="color:var(--benchmark-red);">32%</div><div class="dc-sub">At Benchmark &middot; PR 30</div></div>
+    <div class="dashboard-cell"><div class="dc-grade">Grade 5</div><div class="dc-val" style="color:var(--benchmark-amber);">42%</div><div class="dc-sub">At Benchmark &middot; PR 39</div></div>
+    <div class="dashboard-cell"><div class="dc-grade">Grade 6</div><div class="dc-val" style="color:var(--benchmark-green);">68%</div><div class="dc-sub">At Benchmark &middot; PR 54</div></div>
+    <div class="dashboard-cell"><div class="dc-grade">Grade 7</div><div class="dc-val" style="color:var(--benchmark-amber);">48%</div><div class="dc-sub">At Benchmark &middot; PR 42</div></div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; margin-top:16px;">
+    <div class="stat-card glow-green" style="text-align:center;">
+      <div class="stat-value green" style="font-size:2rem;">44.8%</div>
+      <div class="stat-label">At/Above Benchmark</div>
+    </div>
+    <div class="stat-card glow-red" style="text-align:center;">
+      <div class="stat-value red" style="font-size:2rem;">36.9%</div>
+      <div class="stat-label">Need Intervention</div>
+    </div>
+    <div class="stat-card glow-blue" style="text-align:center;">
+      <div class="stat-value blue" style="font-size:2rem;">38</div>
+      <div class="stat-label">School Mean PR</div>
+    </div>
+  </div>
+
+  <div class="callout info" style="margin-top:14px; text-align:center; font-size:0.9rem;">
+    <strong>Priority Focus:</strong> &nbsp; Grade 1 (systemic) &nbsp;&bull;&nbsp; Grade 4 (volume) &nbsp;&bull;&nbsp; On Watch students in Grades 5 & 7 (opportunity)
+  </div>
+  <div class="slide-footer">Az-Zahraa Islamic Academy &middot; Star Math Enterprise &middot; Spring 2026</div>
+</section>
+
+<!-- ============ SLIDE: FINAL THANK YOU ============ -->
+<section>
+  <div class="thankyou-slide">
+    <h2>Thank You</h2>
+    <p>Star Math Enterprise Results &middot; Az-Zahraa Islamic Academy &middot; Spring 2026</p>
+    <div style="margin-top: 30px; color: var(--text-muted); font-size: 0.8rem;">
+      Use arrow keys to navigate &middot; Press <kbd style="background:var(--bg-card); padding:2px 8px; border-radius:4px; border:1px solid var(--border);">F</kbd> for fullscreen &middot; Press <kbd style="background:var(--bg-card); padding:2px 8px; border-radius:4px; border:1px solid var(--border);">Esc</kbd> to exit
+    </div>
+  </div>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+// ====== REVEAL.JS INIT ======
+Reveal.initialize({
+  hash: true,
+  slideNumber: 'c/t',
+  width: 1200,
+  height: 700,
+  margin: 0,
+  transition: 'fade',
+  transitionSpeed: 'fast',
+  backgroundTransition: 'fade',
+  center: false,
+  progress: true,
+  controls: false,
+});
+
+// ====== CHART DEFAULTS ======
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.plugins.legend.display = false;
+Chart.defaults.plugins.tooltip.backgroundColor = '#1a2235';
+Chart.defaults.plugins.tooltip.borderColor = 'rgba(148,163,184,0.2)';
+Chart.defaults.plugins.tooltip.borderWidth = 1;
+Chart.defaults.plugins.tooltip.cornerRadius = 8;
+Chart.defaults.plugins.tooltip.padding = 12;
+Chart.defaults.plugins.tooltip.titleFont = { weight: '600', size: 13 };
+Chart.defaults.plugins.tooltip.bodyFont = { size: 12 };
+
+const GREEN = '#10b981';
+const BLUE = '#3b82f6';
+const AMBER = '#f59e0b';
+const RED = '#ef4444';
+const LABELS = ['Grade K', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7'];
+
+// Data
+const DATA = {
+  classes: ['K','1','2','3','4','5','6','7'],
+  teachers: ['Wassick','Jaffar','Pineda','Walli-Merali','Terchi','Hamzagic','Ullah','Blinn'],
+  n: [28, 24, 27, 29, 31, 24, 19, 21],
+  meanSS: [776, 777, 881, 920, 954, 1013, 1064, 1053],
+  meanPR: [51, 20, 39, 35, 30, 39, 54, 42],
+  above: [20, 3, 12, 13, 10, 10, 13, 10],
+  onwatch: [2, 5, 6, 4, 3, 7, 4, 6],
+  intervention: [6, 8, 8, 7, 14, 5, 2, 4],
+  urgent: [0, 8, 1, 5, 4, 2, 0, 1],
+  abovePct: [71.4, 12.5, 44.4, 44.8, 32.3, 41.7, 68.4, 47.6],
+  onwatchPct: [7.1, 20.8, 22.2, 13.8, 9.7, 29.2, 21.1, 28.6],
+  interventionPct: [21.4, 33.3, 29.6, 24.1, 45.2, 20.8, 10.5, 19.0],
+  urgentPct: [0, 33.3, 3.7, 17.2, 12.9, 8.3, 0, 4.8],
+};
+
+// Helper: create donut chart
+function makeDonut(canvasId, above, onwatch, intervention, urgent) {
+  const ctx = document.getElementById(canvasId);
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['At/Above', 'On Watch', 'Intervention', 'Urgent'],
+      datasets: [{
+        data: [above, onwatch, intervention, urgent],
+        backgroundColor: [GREEN, BLUE, AMBER, RED],
+        borderWidth: 0,
+        hoverBorderWidth: 0,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '62%',
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true },
+      },
+      animation: { animateRotate: true, duration: 800 },
+    }
+  });
+}
+
+// ====== CHART INIT (per-slide, with delay for visibility) ======
+let chartsInitialized = {};
+
+function tryInitChart(id, createFn) {
+  if (chartsInitialized[id]) return;
+  const el = document.getElementById(id);
+  if (!el) return;
+  // Check if canvas is in the currently visible slide
+  const slide = el.closest('section');
+  if (!slide || !slide.classList.contains('present')) return;
+  chartsInitialized[id] = true;
+  createFn();
+}
+
+function initChartsForCurrentSlide() {
+  setTimeout(() => {
+    // School donut
+    tryInitChart('schoolDonut', () => makeDonut('schoolDonut', 91, 37, 54, 21));
+
+    // Stacked bar
+    tryInitChart('stackedBar', () => {
+    new Chart(document.getElementById('stackedBar'), {
+      type: 'bar',
+      data: {
+        labels: LABELS,
+        datasets: [
+          { label: 'At/Above Benchmark', data: DATA.abovePct, backgroundColor: GREEN, borderRadius: {topLeft:4, bottomLeft:4}, barPercentage: 0.7 },
+          { label: 'On Watch', data: DATA.onwatchPct, backgroundColor: BLUE, barPercentage: 0.7 },
+          { label: 'Intervention', data: DATA.interventionPct, backgroundColor: AMBER, barPercentage: 0.7 },
+          { label: 'Urgent Intervention', data: DATA.urgentPct, backgroundColor: RED, borderRadius: {topRight:4, bottomRight:4}, barPercentage: 0.7 },
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { stacked: true, max: 100, grid: { color: 'rgba(148,163,184,0.06)' }, ticks: { callback: v => v + '%' } },
+          y: { stacked: true, grid: { display: false } },
+        },
+        plugins: {
+          tooltip: {
+            callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw.toFixed(1) + '%' }
+          }
+        },
+        animation: { duration: 1000 },
+      }
+    });
+    });
+
+    // Mean PR bar
+    tryInitChart('meanPRbar', () => {
+    new Chart(document.getElementById('meanPRbar'), {
+      type: 'bar',
+      data: {
+        labels: LABELS,
+        datasets: [{
+          data: DATA.meanPR,
+          backgroundColor: DATA.meanPR.map(v => v >= 50 ? GREEN : v >= 35 ? AMBER : RED),
+          borderRadius: 6,
+          barPercentage: 0.6,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true, max: 70,
+            grid: { color: 'rgba(148,163,184,0.06)' },
+            ticks: { stepSize: 10 }
+          },
+          x: { grid: { display: false } }
+        },
+        plugins: {
+          annotation: {},
+          datalabels: {
+            anchor: 'end', align: 'end', offset: 4,
+            font: { weight: '700', size: 14 },
+            color: '#f1f5f9',
+            formatter: v => v,
+          }
+        },
+        animation: { duration: 800 },
+      },
+      plugins: [ChartDataLabels, {
+        id: 'refLine',
+        afterDraw(chart) {
+          const yScale = chart.scales.y;
+          const y = yScale.getPixelForValue(50);
+          const ctx = chart.ctx;
+          ctx.save();
+          ctx.setLineDash([6, 4]);
+          ctx.strokeStyle = 'rgba(148,163,184,0.5)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(chart.chartArea.left, y);
+          ctx.lineTo(chart.chartArea.right, y);
+          ctx.stroke();
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '11px Inter';
+          ctx.fillText('National 50th Percentile', chart.chartArea.right - 150, y - 8);
+          ctx.restore();
+        }
+      }]
+    });
+    });
+
+    // % At benchmark bar (sorted)
+    tryInitChart('benchPctBar', () => {
+    const sorted = LABELS.map((l, i) => ({ label: l, val: DATA.abovePct[i] })).sort((a, b) => b.val - a.val);
+    new Chart(document.getElementById('benchPctBar'), {
+      type: 'bar',
+      data: {
+        labels: sorted.map(s => s.label),
+        datasets: [{
+          data: sorted.map(s => s.val),
+          backgroundColor: sorted.map(s => s.val >= 60 ? GREEN : s.val >= 40 ? AMBER : RED),
+          borderRadius: 6,
+          barPercentage: 0.6,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true, max: 90,
+            grid: { color: 'rgba(148,163,184,0.06)' },
+            ticks: { callback: v => v + '%' }
+          },
+          x: { grid: { display: false } }
+        },
+        plugins: {
+          datalabels: {
+            anchor: 'end', align: 'end', offset: 4,
+            font: { weight: '700', size: 14 },
+            color: '#f1f5f9',
+            formatter: v => v.toFixed(1) + '%',
+          }
+        },
+        animation: { duration: 800 },
+      },
+      plugins: [ChartDataLabels, {
+        id: 'avgLine',
+        afterDraw(chart) {
+          const yScale = chart.scales.y;
+          const y = yScale.getPixelForValue(44.8);
+          const ctx = chart.ctx;
+          ctx.save();
+          ctx.setLineDash([6, 4]);
+          ctx.strokeStyle = 'rgba(148,163,184,0.5)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(chart.chartArea.left, y);
+          ctx.lineTo(chart.chartArea.right, y);
+          ctx.stroke();
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '11px Inter';
+          ctx.fillText('School Average: 44.8%', chart.chartArea.right - 155, y - 8);
+          ctx.restore();
+        }
+      }]
+    });
+    });
+
+    // Class donuts
+    const donutConfigs = [
+      ['donutK', 20, 2, 6, 0], ['donut1', 3, 5, 8, 8], ['donut2', 12, 6, 8, 1],
+      ['donut3', 13, 4, 7, 5], ['donut4', 10, 3, 14, 4], ['donut5', 10, 7, 5, 2],
+      ['donut6', 13, 4, 2, 0], ['donut7', 10, 6, 4, 1],
+    ];
+    donutConfigs.forEach(([id, a, o, i, u]) => {
+      tryInitChart(id, () => makeDonut(id, a, o, i, u));
+    });
+
+    // On Watch bar
+    tryInitChart('onWatchBar', () => {
+    new Chart(document.getElementById('onWatchBar'), {
+      type: 'bar',
+      data: {
+        labels: LABELS,
+        datasets: [{
+          label: 'On Watch Students',
+          data: DATA.onwatch,
+          backgroundColor: BLUE,
+          borderRadius: 6,
+          barPercentage: 0.55,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true, grid: { color: 'rgba(148,163,184,0.06)' }, ticks: { stepSize: 1 } },
+          x: { grid: { display: false } }
+        },
+        plugins: {
+          datalabels: {
+            anchor: 'end', align: 'end', offset: 4,
+            font: { weight: '700', size: 15 }, color: BLUE,
+            formatter: v => v + ' students',
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+    });
+
+    // Intervention bar (stacked: urgent + intervention)
+    tryInitChart('interventionBar', () => {
+    new Chart(document.getElementById('interventionBar'), {
+      type: 'bar',
+      data: {
+        labels: LABELS,
+        datasets: [
+          { label: 'Intervention', data: DATA.intervention, backgroundColor: AMBER, borderRadius: {topLeft:6, bottomLeft:6}, barPercentage: 0.55, },
+          { label: 'Urgent Intervention', data: DATA.urgent, backgroundColor: RED, borderRadius: {topRight:6, bottomRight:6}, barPercentage: 0.55, },
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { stacked: true, grid: { display: false } },
+          y: { stacked: true, beginAtZero: true, grid: { color: 'rgba(148,163,184,0.06)' }, ticks: { stepSize: 2 } },
+        },
+        plugins: {
+          legend: { display: true, position: 'top', labels: { boxWidth: 12, padding: 20, font: { size: 11 } } },
+          datalabels: {
+            display: function(ctx) {
+              return ctx.datasetIndex === 1;
+            },
+            anchor: 'end', align: 'end', offset: 4,
+            font: { weight: '700', size: 13 }, color: '#f1f5f9',
+            formatter: (v, ctx) => {
+              const total = DATA.intervention[ctx.dataIndex] + DATA.urgent[ctx.dataIndex];
+              return total;
+            },
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+    });
+
+    // Progression line
+    tryInitChart('progressionLine', () => {
+    new Chart(document.getElementById('progressionLine'), {
+      type: 'line',
+      data: {
+        labels: LABELS,
+        datasets: [{
+          label: 'Mean Percentile Rank',
+          data: DATA.meanPR,
+          borderColor: '#60a5fa',
+          backgroundColor: 'rgba(96,165,250,0.1)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.35,
+          pointBackgroundColor: DATA.meanPR.map(v => v >= 50 ? GREEN : v >= 35 ? AMBER : RED),
+          pointBorderColor: '#111827',
+          pointBorderWidth: 3,
+          pointRadius: 8,
+          pointHoverRadius: 10,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true, max: 65,
+            grid: { color: 'rgba(148,163,184,0.06)' },
+          },
+          x: { grid: { display: false } }
+        },
+        plugins: {
+          datalabels: {
+            anchor: 'end', align: 'top', offset: 8,
+            font: { weight: '700', size: 14 },
+            color: v => v.dataset.data[v.dataIndex] >= 50 ? GREEN : v.dataset.data[v.dataIndex] >= 35 ? AMBER : RED,
+            formatter: v => 'PR ' + v,
+          }
+        }
+      },
+      plugins: [ChartDataLabels, {
+        id: 'refLine50',
+        afterDraw(chart) {
+          const yScale = chart.scales.y;
+          const y = yScale.getPixelForValue(50);
+          const ctx = chart.ctx;
+          ctx.save();
+          ctx.setLineDash([6, 4]);
+          ctx.strokeStyle = 'rgba(148,163,184,0.4)';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(chart.chartArea.left, y);
+          ctx.lineTo(chart.chartArea.right, y);
+          ctx.stroke();
+          ctx.fillStyle = '#64748b';
+          ctx.font = '11px Inter';
+          ctx.fillText('National Average (PR 50)', chart.chartArea.left + 8, y - 8);
+          ctx.restore();
+        }
+      }]
+    });
+    });
+    // ====== NEW CHARTS: Research Report ======
+
+    // Distance-to-benchmark chart
+    tryInitChart('deltaChart', () => {
+      const deltas = [19.6, -47.3, -4.4, -21.1, -31.3, -4.5, 23.8, -3.3];
+      new Chart(document.getElementById('deltaChart'), {
+        type: 'bar',
+        data: {
+          labels: LABELS,
+          datasets: [{
+            data: deltas,
+            backgroundColor: deltas.map(d => d >= 0 ? 'rgba(16,185,129,0.7)' : d > -20 ? 'rgba(245,158,11,0.7)' : 'rgba(239,68,68,0.7)'),
+            borderRadius: 6,
+            barPercentage: 0.55,
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            y: { grid: { color: 'rgba(148,163,184,0.06)' }, ticks: { callback: v => (v>0?'+':'')+v } },
+            x: { grid: { display: false } }
+          },
+          plugins: {
+            datalabels: { anchor: ctx => ctx.dataset.data[ctx.dataIndex] >= 0 ? 'end' : 'start', align: ctx => ctx.dataset.data[ctx.dataIndex] >= 0 ? 'end' : 'start', offset: 4, font:{weight:'700',size:14}, color:'#f1f5f9', formatter: v => (v>0?'+':'')+v.toFixed(0) }
+          }
+        },
+        plugins: [ChartDataLabels, {
+          id: 'zeroLine',
+          afterDraw(chart) {
+            const y = chart.scales.y.getPixelForValue(0);
+            const ctx = chart.ctx;
+            ctx.save(); ctx.strokeStyle='rgba(241,245,249,0.4)'; ctx.lineWidth=2;
+            ctx.beginPath(); ctx.moveTo(chart.chartArea.left,y); ctx.lineTo(chart.chartArea.right,y); ctx.stroke();
+            ctx.fillStyle='#94a3b8'; ctx.font='11px Inter'; ctx.fillText('Benchmark Cutoff',chart.chartArea.right-110,y-8);
+            ctx.restore();
+          }
+        }]
+      });
+    });
+
+    // Confidence interval chart
+    tryInitChart('ciChart', () => {
+      const rates = [71.4, 12.5, 44.4, 44.8, 32.3, 41.7, 68.4, 47.6];
+      const ciLow = [53.5, 4.3, 27.3, 28.9, 18.2, 24.5, 45.5, 28.4];
+      const ciHigh = [84.7, 31.0, 62.7, 62.5, 49.9, 61.2, 84.6, 67.6];
+      new Chart(document.getElementById('ciChart'), {
+        type: 'bar',
+        data: {
+          labels: LABELS,
+          datasets: [
+            { label: 'At/Above %', data: rates, backgroundColor: rates.map(r => r >= 60 ? 'rgba(16,185,129,0.7)' : r >= 40 ? 'rgba(245,158,11,0.7)' : 'rgba(239,68,68,0.7)'), borderRadius: 6, barPercentage: 0.5, order: 1 },
+            { label: '95% Confidence Range', data: rates.map((r,i) => [ciLow[i], ciHigh[i]]), type: 'bar', backgroundColor: 'rgba(148,163,184,0.15)', borderColor: 'rgba(148,163,184,0.4)', borderWidth: 1, borderRadius: 4, barPercentage: 0.5, order: 0 },
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true, max: 100, grid: { color: 'rgba(148,163,184,0.06)' }, ticks: { callback: v => v + '%' } },
+            x: { grid: { display: false } }
+          },
+          plugins: {
+            legend: { display: true, position:'top', labels:{boxWidth:12,padding:20,font:{size:11}} },
+            datalabels: {
+              display: ctx => ctx.datasetIndex === 0,
+              anchor:'end', align:'end', offset:4, font:{weight:'700',size:13}, color:'#f1f5f9', formatter: v => v.toFixed(1)+'%'
+            }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+    });
+
+    // ====== NEW CHARTS: Domain Mastery ======
+
+    // Domain mastery data
+    const DOMAIN = {
+      grades: ['K','1','2','3','4','5','6','7'],
+      numOps:   [68, 42, 66, 52, 35, 38, 51, 47],
+      algebra:  [56, 29, 43, 38, 35, 32, 46, 38],
+      measData: [52, 34, 50, 44, 30, 36, 47, 37],
+      geometry: [44, 32, 37, 35, 21, 31, 33, 30],
+      numOpsProj:   [78, 55, 76, 64, 47, 49, 62, 55],
+      algebraProj:  [72, 44, 56, 51, 47, 44, 58, 47],
+      measDataProj: [66, 50, 64, 58, 43, 48, 58, 43],
+      geometryProj: [59, 48, 53, 47, 32, 42, 45, 38],
+    };
+
+    // Heatmap table
+    tryInitChart('heatmapBody', () => {
+      const tbody = document.getElementById('heatmapBody');
+      if (!tbody) return;
+      const gradeLabels = ['Grade K','Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7'];
+      const domains = [DOMAIN.numOps, DOMAIN.algebra, DOMAIN.measData, DOMAIN.geometry];
+      function heatColor(v) {
+        if (v >= 70) return '#22c55e';
+        if (v >= 60) return '#84cc16';
+        if (v >= 50) return '#eab308';
+        if (v >= 40) return '#f97316';
+        return '#dc2626';
+      }
+      function textColor(v) { return v >= 60 ? '#000' : '#fff'; }
+      for (let i = 0; i < 8; i++) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td style="padding:10px 14px; font-weight:600; color:var(--text-primary); background:var(--bg-card); border-radius:8px;">${gradeLabels[i]}</td>`;
+        for (let d = 0; d < 4; d++) {
+          const v = domains[d][i];
+          tr.innerHTML += `<td style="text-align:center; padding:10px 14px; font-weight:800; font-size:1.05rem; background:${heatColor(v)}; color:${textColor(v)}; border-radius:8px;">${v}%</td>`;
+        }
+        tbody.appendChild(tr);
+      }
+    });
+
+    // Geometry bar
+    tryInitChart('geometryBar', () => {
+      new Chart(document.getElementById('geometryBar'), {
+        type: 'bar',
+        data: {
+          labels: LABELS,
+          datasets: [{
+            data: DOMAIN.geometry,
+            backgroundColor: DOMAIN.geometry.map(v => v < 35 ? RED : v < 50 ? AMBER : GREEN),
+            borderRadius: 6,
+            barPercentage: 0.55,
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true, max: 80, grid: { color: 'rgba(148,163,184,0.06)' }, ticks: { callback: v => v + '%' } },
+            x: { grid: { display: false } }
+          },
+          plugins: {
+            datalabels: { anchor:'end', align:'end', offset:4, font:{weight:'700',size:15}, color:'#f1f5f9', formatter: v => v+'%' }
+          }
+        },
+        plugins: [ChartDataLabels, {
+          id: 'devLine',
+          afterDraw(chart) {
+            const y = chart.scales.y.getPixelForValue(60);
+            const ctx = chart.ctx;
+            ctx.save(); ctx.setLineDash([6,4]); ctx.strokeStyle='rgba(148,163,184,0.4)'; ctx.lineWidth=1.5;
+            ctx.beginPath(); ctx.moveTo(chart.chartArea.left,y); ctx.lineTo(chart.chartArea.right,y); ctx.stroke();
+            ctx.fillStyle='#64748b'; ctx.font='11px Inter'; ctx.fillText('"Developing" threshold (60%)',chart.chartArea.left+8,y-8);
+            ctx.restore();
+          }
+        }]
+      });
+    });
+
+    // Domain range chart (strongest vs weakest per grade)
+    tryInitChart('domainRangeChart', () => {
+      const strongest = DOMAIN.numOps.map((n,i) => Math.max(n, DOMAIN.algebra[i], DOMAIN.measData[i], DOMAIN.geometry[i]));
+      const weakest = DOMAIN.geometry; // geometry is weakest in every grade
+      new Chart(document.getElementById('domainRangeChart'), {
+        type: 'bar',
+        data: {
+          labels: LABELS,
+          datasets: [
+            { label: 'Strongest Domain', data: strongest, backgroundColor: 'rgba(16,185,129,0.7)', borderRadius: 6, barPercentage: 0.5 },
+            { label: 'Weakest Domain (Geometry)', data: weakest, backgroundColor: 'rgba(239,68,68,0.7)', borderRadius: 6, barPercentage: 0.5 },
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true, max: 80, grid: { color: 'rgba(148,163,184,0.06)' }, ticks: { callback: v => v + '%' } },
+            x: { grid: { display: false } }
+          },
+          plugins: {
+            legend: { display: true, position: 'top', labels: { boxWidth:12, padding:20, font:{size:11} } },
+            datalabels: { anchor:'end', align:'end', offset:4, font:{weight:'700',size:12}, color:'#f1f5f9', formatter: v => v+'%' }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+    });
+
+    // Growth chart (current vs projected, Numbers & Ops as proxy)
+    tryInitChart('growthChart', () => {
+      new Chart(document.getElementById('growthChart'), {
+        type: 'bar',
+        data: {
+          labels: LABELS,
+          datasets: [
+            { label: 'Current Mastery (Avg All Domains)', data: DOMAIN.numOps.map((n,i) => Math.round((n + DOMAIN.algebra[i] + DOMAIN.measData[i] + DOMAIN.geometry[i])/4)), backgroundColor: 'rgba(96,165,250,0.6)', borderRadius: {topLeft:6,bottomLeft:6}, barPercentage: 0.6 },
+            { label: 'Projected End-of-Year', data: DOMAIN.numOpsProj.map((n,i) => Math.round((n + DOMAIN.algebraProj[i] + DOMAIN.measDataProj[i] + DOMAIN.geometryProj[i])/4)), backgroundColor: 'rgba(16,185,129,0.6)', borderRadius: {topRight:6,bottomRight:6}, barPercentage: 0.6 },
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true, max: 80, grid: { color: 'rgba(148,163,184,0.06)' }, ticks: { callback: v => v + '%' } },
+            x: { grid: { display: false } }
+          },
+          plugins: {
+            legend: { display: true, position: 'top', labels: { boxWidth:12, padding:20, font:{size:11} } },
+            datalabels: { anchor:'end', align:'end', offset:2, font:{weight:'700',size:11}, color:'#f1f5f9', formatter: v => v+'%' }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+    });
+
+  }, 150); // delay ensures slide is fully visible before Chart.js measures canvas
+}
+
+Reveal.on('slidechanged', initChartsForCurrentSlide);
+Reveal.on('ready', initChartsForCurrentSlide);
+</script>
+</body>
+</html>

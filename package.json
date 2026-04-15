@@ -1,0 +1,10 @@
+{
+  "name": "azia-star-math-results",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npx serve public -l $PORT -s"
+  },
+  "dependencies": {
+    "serve": "^14.2.0"
+  }
+}
